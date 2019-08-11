@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#define N 6
 
 int * my_insert(int num,int *array,int *count,int *capacity);
 
@@ -60,8 +60,8 @@ int* my_insert(int num,int *ip,int *count,int *capacity)
 		
 	}
 	else
-	{	(*capacity)++;
-		ip = (int *)realloc(ip,(*capacity)*sizeof(int));
+	{	//(*capacity)++;
+		ip = (int *)realloc(ip,((*capacity)+1)*sizeof(int));
 		if(ip)
 		{
 			ip[*count] = num;
