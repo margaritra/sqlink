@@ -20,7 +20,7 @@ int main()
 	int bin;
 
 
-	char s1[10] = "ABCDEF";
+	char s1[10] = "ABBBEF";
 	char s2[10] = "BKE";
 
 	char str1[10] = "ABCDEF";
@@ -65,7 +65,7 @@ char *my_squeeze(char *s1,char *s2)
 	
 	//if my strings are not empty => strcmp(s1, "")!=0
 
-	 if(strcmp(s1, "")!=0 && strcmp(s2, "")!=0)
+	 if(s1 && s2)
 	{	
 		for (i;i<size_s2;i++)
 		{
@@ -103,9 +103,9 @@ int string_location(char *s1,char *s2)
 	int size_s2 = strlen(s2);
 	int place = -1;
 
-	if(strcmp(s1, "")!=0 && strcmp(s2, "")!=0)
+	if(s1 && s2)
 	{	
-		for(i;i<size_s1;i++)
+		for(i;i<size_s1;i++)//size_s1-size_s2
 		{
 			while(i<size_s1)
 			{
