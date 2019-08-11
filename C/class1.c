@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define N 6
+
 
 int * my_insert(int num,int *array,int *count,int *capacity);
 
@@ -26,7 +26,7 @@ int *result;
    int temp = capacity;
 
 	
-   while(test < temp+1)
+   while(test < temp*2)
 	{
 		printf("Enter the number: ");    
 		scanf("%d",&num); 
@@ -73,7 +73,6 @@ int* my_insert(int num,int *ip,int *count,int *capacity)
  	
 	return ip;
 }
-
 
 
 
