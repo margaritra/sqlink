@@ -6,11 +6,14 @@
 da_t* my_create(int capacity)
 {
 	da_t * frst_da ;
-	frst_da = malloc(sizeof(da_t));
-	frst_da->capacity = capacity;
-	frst_da->index = 0;
-	frst_da->arr = malloc(capacity*sizeof(int));
-	return frst_da;
+	if(frst_da)
+	{
+		frst_da = malloc(sizeof(da_t));
+		frst_da->capacity = capacity;
+		frst_da->index = 0;
+		frst_da->arr = malloc(capacity*sizeof(int));
+		return frst_da;
+	}
 }
 
 
@@ -18,7 +21,7 @@ int my_insert(da_t *ip,int num)
 {
  	da_t * temp;
 
-	temp = ip;
+	temp->arr = ip->arr;
 	
 	if(ip->index < ip->capacity)
 	{
@@ -29,7 +32,7 @@ int my_insert(da_t *ip,int num)
 	else
 	{	
 		ip->arr = realloc(ip->arr,((ip->capacity)*2)*sizeof(int));
-		if(temp)
+		if(temp->arr)
 		{
 			ip = temp;
 			
@@ -52,19 +55,27 @@ void print_da(da_t* arr)
 {
 	//int size_arr = sizeof(arr)/sizeof(arr[0]);
 	//printf("size :%d\n",size_arr);
-
-	for(int i = 0; i < arr->index ;i++)
+	if(arr->index!=0)
 	{
-		printf("%d\n",arr->arr[i]);
-	
+		for(int i = 0; i < arr->index ;i++)
+		{
+			printf("%d\n",arr->arr[i]);
+		}
 	}
+
 }
 
 void destroy_da(da_t *ip)
 {
 	//printf("destroy : \n");
-	free(ip->arr);
-	free(ip);
+	if((ip->arr)!=0)
+	{
+		free(ip->arr);
+	}
+	if (ip!=0)
+	{
+		free(ip);
+	}
+	
 }
-
 
