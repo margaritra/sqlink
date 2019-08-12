@@ -55,7 +55,7 @@ void print_da(da_t* arr)
 {
 	//int size_arr = sizeof(arr)/sizeof(arr[0]);
 	//printf("size :%d\n",size_arr);
-	if(arr->index!=0)
+	if(arr!=0)
 	{
 		for(int i = 0; i < arr->index ;i++)
 		{
