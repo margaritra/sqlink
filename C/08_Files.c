@@ -1,9 +1,13 @@
 /* fputs example */
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+int * get_frequency(FILE * pFile);
+void print_frequency(int * letters_frequency);
 int read_lines_pos(FILE* pFile,int* lines_pos,int max_bytes);
 int get_last_index(FILE* pFILE);
 int read_from_to(FILE* pFile,int from,int to,int max);
+
 
 int main ()
 {
@@ -34,6 +38,7 @@ int main ()
   readTo = get_last_index(pFile);
   
   read_from_to(pFile,readFrom,readTo,10000);
+  print_frequency(get_frequency(pFile));
   
   
   
@@ -91,4 +96,29 @@ int read_from_to(FILE* pFile,int from,int to,int max)
     return 0;
   }
   
+}
+int * get_frequency(FILE * pFile)
+{
+  int *letters_frequency = (int*) malloc (sizeof(int)*26);  
+  int file_size = get_last_index(pFile);
+  char letter ='!';
+  int ascii=0;
+
+  fseek(pFile, 0L, SEEK_SET);
+  memset(letters_frequency, 0, 26*4);
+  
+  for(int i = 0; i < file_size; i++) {
+       fread(&letter, 1, 1, pFile);
+       ascii = (int) tolower(letter);
+      if (ascii>=97 && ascii<=122){
+        letters_frequency[ascii-97]++;
+      }
+  }
+  return letters_frequency;
+
+}
+void print_frequency(int * letters_frequency){
+  for(int i =0;i<26;i++){
+    printf("%c %d\n",97+i,letters_frequency[i]);
+  }
 }
