@@ -9,6 +9,7 @@
 typedef enum  {OK, AllocationError} AdtStatus;
 typedef void (* elementDestroy)(void *_elem, void *context);
 typedef int (* elementCompare)(void *_elemA, void *_elemB);
+typedef void (* elementswap)(void *arri, void *arrj);
 /* forward declaration of the darray type */
 typedef struct darray darray;
 AdtStatus darrayCreate(darray **dArr, size_t initial_capacity);
