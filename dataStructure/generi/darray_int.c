@@ -7,6 +7,13 @@ struct darray{
 	int capacity;
 	int initial_capacity;
 };
+
+typedef struct
+{
+	int x;
+	int y;
+}vector;
+
 AdtStatus darrayCreate(darray **dArr, size_t initial_capacity)
 {
 	darray *tempArr;
@@ -114,45 +121,55 @@ int darrayItemsNum(darray *dArr, int*  _numOfItems)
 	//_numOfItems = dArr->index;
 	return  dArr->index;
 }
-/*
-static int myPartition(darray *dArr,int low,int high)
+//-----------------------------------------------------------------------
+
+static int mypartition(darray *dArr,int low,int high)
 {
 	int i;
-    
-	pivot = dArr->arr[dArr->index]; 
+	int j;
+	int pivot;
+	int arrj;
+	vector* vec;
+	vector*vecForI;
+    vec = dArr->arr[high];//proverit v gdb
+	pivot = vectorsCompare(vec->x, vec->y);//3
  
-    	i = (low - 1)  // Index of smaller element
-
-    	for (j = low; j <= high- 1; j++)
-   	 {
-      	  // If current element is smaller than or
-      	  // equal to pivot
-        	if (arr[j] <= pivot)//vectorsCompare -----------to use function compare!!!!!!! 
-        	{
-          	  i++;    // increment index of smaller element
-                  arr[i] and arr[j]
-        	}
-    	}
-    swap arr[i + 1] and arr[high])
-    return (i + 1)
+    i = low;  // Index of smaller element
+    for (j = low; j <= high- 1; j++)
+   	{
+      	// If current element is smaller than or
+      	// equal to pivot
+		vecForI = dArr->arr[j];
+		arrj = vectorsCompare(vecForI->x, vecForI->y);
+        if (arrj <= pivot)
+		{
+        	i++;    // increment index of smaller element
+            swapLocation(dArr->arr[i],dArr->arr[j]);// swap arr[i] and arr[j]
+        }
+    }
+    swapLocation(dArr->arr[i+1],dArr->arr[high]); //swap arr[i + 1] and arr[high]);
+    return (i + 1);
 }
 
-AdtStatus darraySort(darray *dArr)
+void myquickSort(darray *dArr,int low,int high)
 {
-	int i;
-	for(i = 0;i<dArr->index;i++)
-	{
-		if ((dArr->index-dArr->index+i) < dArr->arr[dArr->index])
-		{
-        		pi = partition(dArr, (dArr->index-dArr->index+i), dArr->arr[dArr->index]);
+	int pi ;
+    if (low < high)
+    {
+        pi = mypartition(dArr, low, high);
 
-        		darraySort(arr, low, pi - 1);  // Before pi
-       			darraySort(arr, pi + 1, high); // After pi
-		}
+        myquickSort(dArr, low, pi - 1);  // Before pi
+        myquickSort(dArr, pi + 1, high); // After pi
     }
 }
 
-*/
+AdtStatus darraySort(darray *dArr)
+{	
+	int low = 0;
+
+	myquickSort(dArr,low,dArr->index); 
+}
+
 
 AdtStatus   darrayGet(darray *dArr, size_t _index, void **_item)
 {
