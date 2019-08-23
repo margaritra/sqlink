@@ -17,8 +17,8 @@ int vectorsCompare(void* _elemA, void* _elemB)
 	vector* vector1 = (vector*) _elemA;
 	vector* vector2 = (vector*) _elemB;
 
-	leng1 = sqrt(pow((vector1->x + vector1->y),2));
-	leng2 = sqrt(pow((vector2->x + vector2->y),2));
+	leng1 = vector1->x + vector1->y;
+	leng2 = vector2->x + vector2->y;
 
 	if(leng1 == leng2)
 	{
@@ -36,7 +36,14 @@ int vectorsCompare(void* _elemA, void* _elemB)
 		return leng1-leng2;
 	}
 }
-
+void swapLocation(void* arri, void* arrj)
+{
+	int* arr1 = (int*) arri;
+	int* arr2 = (int*) arrj;
+	int temp = *arr1; 
+    *arr1 = *arr2; 
+    *arr2 = temp; 
+}
 
 void destroyVector(void *_elem, void *context)
 {
@@ -61,23 +68,33 @@ void testFunc()
 	int item = 5;
 	int x= 2;
 
-	x = pow(x,2);
-	printf("the pow is :%d",x);
+	//x = pow(x,2);
+	//printf("the pow is :%d",x);
 
 	AdtStatus tmp;
 	char filename[] = "vector.txt";
 
 	vector *vec = malloc(sizeof(vector));
-	vec->x = item;
-	vec->y = item;
-	
+
+	vec->x = 5;
+	vec->y = 5;
 
 	FILE * file = fopen(filename,"w");
 
 	tmp = darrayCreate(&myDarr,100);
-	printf("result of create is :%d\n",tmp);
 
 	darrayAdd(myDarr,vec);
+
+	vec->x = 10;
+	vec->y = 7;
+
+	darrayAdd(myDarr,vec);
+
+	vec->x = 10;
+	vec->y = 9;
+
+	darrayAdd(myDarr,vec);
+	darraySort(myDarr);
 	
 	//darrayDelete(myDarr,myInt);
 	
