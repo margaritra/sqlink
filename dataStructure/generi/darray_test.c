@@ -19,31 +19,10 @@ int vectorsCompare(void* _elemA, void* _elemB)
 
 	leng1 = vector1->x + vector1->y;
 	leng2 = vector2->x + vector2->y;
+	
+	return leng1-leng2;	
+}
 
-	if(leng1 == leng2)
-	{
-		printf("%d", leng1-leng2);
-		return leng1-leng2;
-	}
-	else if(leng1 > leng2)
-	{
-		printf("%d", leng1+leng2);
-		return leng1+leng2;
-	}
-	else if(leng1 < leng2)
-	{
-		printf("%d", leng1-leng2);
-		return leng1-leng2;
-	}
-}
-void swapLocation(void* arri, void* arrj)
-{
-	int* arr1 = (int*) arri;
-	int* arr2 = (int*) arrj;
-	int temp = *arr1; 
-    *arr1 = *arr2; 
-    *arr2 = temp; 
-}
 
 void destroyVector(void *_elem, void *context)
 {
@@ -58,7 +37,28 @@ void destroyVector(void *_elem, void *context)
 		}
 	}
 }
-
+/*
+void print_AD(darray *dArr,int length)
+{
+	
+	int i;
+	if(dArr!=NULL)
+	{
+		printf("*******************************************\n");
+		for(i=0;i< length ;i++)
+		{			
+			//printf("array :%d \n",dArr->arr[i]);
+			printVector((vector *)dArr->arr[i]);
+			printf(",");
+			
+		}
+		printf("*******************************************\n");
+	}
+}
+void printVector(vector* vec){
+	printf("(%d,%d)",vec->x,vec->y);
+}
+*/
 void testFunc()
 {
 	darray *myDarr;
@@ -73,15 +73,15 @@ void testFunc()
 
 	AdtStatus tmp;
 	char filename[] = "vector.txt";
+	int length;
 
 	vector *vec = malloc(sizeof(vector));
-
-	vec->x = 5;
-	vec->y = 5;
-
 	FILE * file = fopen(filename,"w");
 
 	tmp = darrayCreate(&myDarr,100);
+
+	vec->x = 5;
+	vec->y = 5;
 
 	darrayAdd(myDarr,vec);
 
@@ -94,12 +94,16 @@ void testFunc()
 	vec->y = 9;
 
 	darrayAdd(myDarr,vec);
-	darraySort(myDarr);
+	darraySort(myDarr,vectorsCompare);
+
+	
+	length = darrayItemsNum(myDarr,&numOfItems);
+	//print_AD(myDarr,length);
 	
 	//darrayDelete(myDarr,myInt);
 	
 
-	//res = darrayItemsNum(myDarr,&numOfItems);
+	
 	//printf("there is numOfItems %d\n",res);
 
 	//myDarr = darrayAdd(myDarr,vec);
