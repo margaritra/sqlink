@@ -8,11 +8,6 @@ struct darray{
 	int initial_capacity;
 };
 
-typedef struct
-{
-	int x;
-	int y;
-}vector;
 
 AdtStatus darrayCreate(darray **dArr, size_t initial_capacity)
 {
@@ -35,7 +30,7 @@ AdtStatus darrayCreate(darray **dArr, size_t initial_capacity)
 	return AllocationError;
 }
 /* Add number to the end. */
-darray *   darrayAdd(darray *dArr,  void  *_item)
+darray * darrayAdd(darray *dArr,  void  *_item)
 {
 	void *temp;
 	temp = dArr->arr;
@@ -100,74 +95,59 @@ AdtStatus darrayDelete(darray *dArr,  void** _item)
 	return AllocationError;
 }
 
-/*
-static void print_AD(darray *dArr)
-{
-	
-	int i;
-	if(dArr!=NULL)
-	{
-		for(i=0;i<dArr->index;i++)
-		{
-			printf("*******************************************\n");
-			printf("array :%d \n",dArr->arr[i]);
-			printf("*******************************************\n");
-		}
-	}
-}
-*/
+
+
+
 int darrayItemsNum(darray *dArr, int*  _numOfItems)
 {
 	//_numOfItems = dArr->index;
 	return  dArr->index;
 }
 //-----------------------------------------------------------------------
-
-static int mypartition(darray *dArr,int low,int high)
+static void swapLocation(void* arri, void* arrj)
+{
+	void* temp = arri; 
+    arri = arrj; 
+    arrj = temp; 
+}
+static int mypartition(darray *dArr,elementCompare compareFunc,int low,int high)
 {
 	int i;
 	int j;
-	int pivot;
-	int arrj;
-	vector* vec;
-	vector*vecForI;
-    vec = dArr->arr[high];//proverit v gdb
-	pivot = vectorsCompare(vec->x, vec->y);//3
+	void* pivot;
+	
+	pivot = dArr->arr[high];
  
-    i = low;  // Index of smaller element
+    i = low;
     for (j = low; j <= high- 1; j++)
-   	{
-      	// If current element is smaller than or
-      	// equal to pivot
-		vecForI = dArr->arr[j];
-		arrj = vectorsCompare(vecForI->x, vecForI->y);
-        if (arrj <= pivot)
+   	{      			
+        if (compareFunc(dArr->arr[j],pivot)<=0)
 		{
-        	i++;    // increment index of smaller element
-            swapLocation(dArr->arr[i],dArr->arr[j]);// swap arr[i] and arr[j]
+        	i++; 
+            swapLocation(dArr->arr[i],dArr->arr[j]);
         }
     }
     swapLocation(dArr->arr[i+1],dArr->arr[high]); //swap arr[i + 1] and arr[high]);
     return (i + 1);
 }
 
-void myquickSort(darray *dArr,int low,int high)
+void myquickSort(darray *dArr,int low,int high,elementCompare compareFunc)
 {
 	int pi ;
     if (low < high)
     {
-        pi = mypartition(dArr, low, high);
+        pi = mypartition(dArr,compareFunc, low, high);
 
-        myquickSort(dArr, low, pi - 1);  // Before pi
-        myquickSort(dArr, pi + 1, high); // After pi
+        myquickSort(dArr, low, pi - 1, compareFunc);  // Before pi
+        myquickSort(dArr, pi + 1, high,compareFunc); // After pi
     }
 }
 
-AdtStatus darraySort(darray *dArr)
+AdtStatus darraySort(darray *dArr,elementCompare compareFunc)
 {	
 	int low = 0;
-
-	myquickSort(dArr,low,dArr->index); 
+	int high = dArr->index -1;
+	myquickSort(dArr,low,high,compareFunc); 
 }
 
 
