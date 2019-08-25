@@ -4,13 +4,10 @@
 #include "bst.h"
 
 //root->root->data
-void printNode(void* mynode)
+void printNode(int value)
 {
-
-	int* nd = (int*)mynode;
-	printf("%d\n",nd);
+	printf("%d,",value);
 }
-
 
 
 void testFunc()
@@ -21,10 +18,18 @@ void testFunc()
 
 	bstAdd(myroot, 5);
 	bstAdd(myroot, 10);
-	bstwalk(printNode,0);
+	bstAdd(myroot, 7);
+	bstAdd(myroot, 4);
+	bstAdd(myroot, 1);
+	bstAdd(myroot, 3);
+	bstwalk(myroot,printNode,0);
+	bstwalk(myroot,printNode,1);
+	bstwalk(myroot,printNode,2);
+
+	//bstwalk(myroot,destroytree,0);
 	
 	
-	}
+}
 
 
 int main()
