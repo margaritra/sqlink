@@ -89,85 +89,73 @@ void bstAdd(tree *t, int val)
 	}
 }
 
-static void printInorder(node* root,treePrint printFunc) 
+static void printInorder(node* t,treePrint fun) 
 { 
-	if (root == NULL) 
+	if (t == NULL) 
+	{
+		return; 
+	}
+
+	printInorder(t->leftChild,fun); 
+
+	fun(t->data);
+
+	printInorder(t->rightChild,fun); 
+}  
+
+static void printPreorder(node* t,treePrint fun) 
+{ 
+	if (t == NULL) 
 	{
 		return; 
 	}
  
-	printInorder(root->leftChild,printFunc); 
+	fun(t->data);
 
-	printFunc(root->root->data);
+	printPreorder(t->leftChild,fun); 
 
-	printInorder(root->root->rightChild,printFunc); 
-} 
+	printPreorder(t->rightChild,fun); 
+}
+
+static void printPostorder(node* t,treePrint fun) 
+{ 
+	if (t == NULL) 
+	{
+		return; 
+	}
+ 
+	printPostorder(t->leftChild,fun); 
+
+	printPostorder(t->rightChild,fun); 
+
+	fun(t->data);
+}
 
 
-void bstwalk(tree* root,treePrint printFunc,Order myorder)
+void bstwalk(tree* t,treePrint printFunc,Order myorder)
 {
-	if(root==NULL)
+	if(t==NULL)
 	{
 		return;
 	}
 	else if(myorder==0)
 	{
-		printInorder(root->root,printFunc);
+		printf("*************Inorder*************\n");
+		printInorder(t->root,printFunc);
+		printf("\n*********************************\n");
 	}
 	else if(myorder==1)
 	{
-		
-		return;
+		printf("*************Preorder*************\n");
+		printPreorder(t->root,printFunc);
+		printf("\n**********************************\n");
 	}
 	else if(myorder==2)
 	{
-		
-		return;
-	}
-}
-
-/*
-
-AdtStatus nodeDelete(tree *t, int val)
-{
-	
-	return AllocationError;
-}
-
-
-
-static void print_AD(darray *dArr)
-{
-	
-	int i;
-	if(dArr!=NULL)
-	{
-		for(i=0;i<dArr->index;i++)
-		{
-			printf("*******************************************\n");
-			printf("array :%d \n",dArr->arr[i]);
-			printf("*******************************************\n");
-		}
+		printf("*************Postorder*************\n");
+		printPostorder(t->root,printFunc);
+		printf("\n***********************************\n");
 	}
 }
 
 
-AdtStatus darrayDestroy(darray *dArr, elementDestroy destroyFunc, void *context)
-{
-	int i = 0;  
-	if(dArr)
-	{
-		if(dArr->arr)
-		{
-			for(i;i<dArr->index;i++)
-			{
-				destroyFunc(dArr->arr[i],context);
-			}
-		free(dArr->arr);
-		}
-	free(dArr);
-	return OK;
-	}
-	return AllocationError;
-}
-*/
