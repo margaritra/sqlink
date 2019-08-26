@@ -1,19 +1,6 @@
 #include "hash_table.h"
 #include<stdlib.h>
 
-static char *mystrdup(char *s) {
-	char *b;
-	if (!(b = malloc(strlen((char*)s) + 1))) return NULL;
-	strcpy(b, s);
-	return b;
-}
-
-/*static hash_size def_hashfunc(const void *key) {
-	hash_size hash = 0;
-	while (*key) hash += (void)*key++;
-	return hash;
-}*/
-
 HASHTBL *hashtbl_create(hash_size size, elemntHash hashFunc, elemntCompare compareFunc) 
 {
 	HASHTBL *hashtbl;
@@ -51,10 +38,6 @@ void hashtbl_destroy(HASHTBL *hashtbl, elemntDestroy freeElement)
 		while (node) 
 		{
 			freeElement(node);
-			/*free(node->key);
-			oldnode = node;
-			node = node->next;
-			free(oldnode);*/
 		}
 	}
 
