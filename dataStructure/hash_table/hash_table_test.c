@@ -22,34 +22,6 @@ void testFunc()
 	hashtbl_insert(hashtbl, "328865587", "margo");
 	hashTableForEach(hashtbl->nodes,hashPrint);
 
-	do
-	{
-		printf("\nChoose Function:\n");
-		printf("1.\n");
-		printf("2.\n");
-		printf("3.\n");
-		printf("4.\n");
-		printf("5.Exit\n");
-		scanf("%d", &choice);
-
-		switch (choice)
-		{
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			printf("GoodBye!\n");
-			break;
-		default:
-			break;
-		}
-	} while (choice !=5);
-
 }
 
 void freeElemnt(void *elemnt)
