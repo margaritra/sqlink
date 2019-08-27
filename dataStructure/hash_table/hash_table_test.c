@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include"hash_table.h"
 
 static void testFunc();
-void freeElemnt(void *elemnt);
 int compareElemnts(void *elemnt_A, void* elemnt_B);
 hash_size def_hashfunc(void *key);
-void hashPrint(void *hash);
+void hashPrint(void *key,void* data);
 
 int main()
 {
@@ -16,25 +16,41 @@ int main()
 
 void testFunc()
 {
-	int choice=0;
-	HASHTBL *hashtbl = NULL;
+	HASHTBL *hashtbl;
+
+	char *key = "72";
+	char*data ="borodin";
+
 	hashtbl = hashtbl_create(10, def_hashfunc, compareElemnts);
-	hashtbl_insert(hashtbl, "328865587", "margo");
-	hashTableForEach(hashtbl->nodes,hashPrint);
 
-}
+	hashtbl_insert(hashtbl, key, data,strlen(key),strlen(data));
 
-void freeElemnt(void *elemnt)
-{
-	struct hashnode_s *oldnode;
-	struct hashnode_s *elemnt1 = (struct hashnode_s*) elemnt;
-	char *key = (char*) elemnt1->key;
-	char *data = (char*) elemnt1->data;
+	key = "27";//for insert the data with the same index in next node
+	data ="ttttttt";
 
-	free(elemnt1->key);
-	oldnode = elemnt1;
-	elemnt1 = elemnt1->next;
-	free(oldnode);
+	hashtbl_insert(hashtbl, key, data,strlen(key),strlen(data));
+
+	key = "27";//for inser the data with the same index in the same node
+	data ="tdfgttttt";
+
+	hashtbl_insert(hashtbl, key, data,strlen(key),strlen(data));
+
+	key = "328865565";//for insert the data with the another index
+	data ="rita";
+
+	hashtbl_insert(hashtbl, key, data,strlen(key),strlen(data));
+
+	hashTableForEach(hashtbl,hashPrint);
+
+	hashtbl_find(hashtbl,"72",hashPrint);
+
+	deleteHash(hashtbl,"72",hashPrint);
+
+	printf("the result after delete:\n ");
+
+	hashTableForEach(hashtbl,hashPrint);
+
+	hashtbl_destroy(hashtbl);
 }
 
 int compareElemnts(void *elemnt_A, void* elemnt_B)
@@ -42,7 +58,7 @@ int compareElemnts(void *elemnt_A, void* elemnt_B)
 	char* str1 = (char*) elemnt_A;
 	char* str2 = (char*) elemnt_B;
 
-	if (!strcmp(str1, str2)) 
+	if (strcmp(str1, str2)==0) 
 	{
 			return 0;
 	}
@@ -55,13 +71,22 @@ hash_size def_hashfunc(void *key)
 	hash_size hash = 0;
 	char* myKey = (char*) key;
 	while (*myKey) 
-		hash += (char)*myKey++;
+		hash += *myKey++;
 	return hash;
 }
 
-void hashPrint(void *hash)
+void hashPrint(void* key,void* data)
 {
-	struct hashnode_s* myhash = (struct hashnode_s*) hash;
-	char *stam = (char*) myhash->key;
-	printf("%s\n", stam);
+	 char* mykey = (char*) key;
+	 char* mydata = (char*) data;
+	
+	printf("%s , %s\n", mykey,mydata);
 }
+
+
+
+
+
+
+
+
