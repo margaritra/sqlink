@@ -6,19 +6,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef size_t hash_size;
-
-typedef void(*elemntDestroy)(void *elemnt);
+typedef size_t hash_size;//unsigned long
+typedef enum  {OK, Error} AdtStatus;
 typedef int(*elemntCompare)(void *elemnt_A, void* elemnt_B);
 
 typedef size_t (*elemntHash)(void *key);
-typedef void(*elemntPrint)(struct hashnode_s *node,void *hash);
+typedef void(*elemntPrint)(void *key,void *data);
 
-struct hashnode_s {
+typedef struct hashnode_s {
 	void *key;
 	void *data;
 	struct hashnode_s *next;
-};
+}hashnode_s;
 
 typedef struct hashtbl {
 	hash_size size;
@@ -28,10 +27,11 @@ typedef struct hashtbl {
 } HASHTBL;
 
 HASHTBL *hashtbl_create(hash_size size, elemntHash hashFunc, elemntCompare compareFunc);
-void hashtbl_destroy(HASHTBL *hashtbl, elemntDestroy freeElement);
-int hashtbl_insert(HASHTBL *hashtbl, void *key, void *data);
-void *hashtbl_find(HASHTBL *hashtbl, void *keys);
-
+void hashtbl_destroy(HASHTBL *hashtbl);
+AdtStatus hashtbl_insert(HASHTBL *hashtbl, void *key, void *data,int sizeofkey,int sizeofdata);
+void *hashtbl_find(HASHTBL *hashtbl, void *keys,elemntPrint printFunc) ;
+void hashTableForEach(HASHTBL *hash,elemntPrint printFunc);
+AdtStatus deleteHash(HASHTBL *hashtbl,void *key,elemntPrint printFunc);
 
 #endif
 
