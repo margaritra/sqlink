@@ -9,15 +9,16 @@ int main()
 	void *ptr;
 	ptr = funB;
 	funA(ptr);
+	printf("Im in main again\n");
 
 	return 0;
 }
 
-void funA(void *ptr)
+void funA(void* ptr)
 {
-	void **p = ptr;
-	*p--;
-	ptr = p;
+	void **p = &ptr;
+	p--;
+	*p = ptr;
 	printf("I'm A function!\n");
 }
 
