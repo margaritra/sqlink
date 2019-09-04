@@ -18,14 +18,3 @@ int main()
 	test(list,size);
 	return 0;
 }
-
-
-	
-	/*
-		*pi = 76411;
-	for(i = 0; i<size;i++)
-	{
-		printf("list [%d",i);
-		printf("] = %d\n",list[i]);
-	}
-	*/
