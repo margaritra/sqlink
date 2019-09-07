@@ -1,19 +1,7 @@
 #include<stdio.h>
 #include <stdlib.h>
 #include "implicit_head.h"
-/*
-void printStatusAlloc(void * yourlocation)
-{
-	if((int*)yourlocation==0)
-	{
-		printf("ERROR ALLOCATION!!!\n");
-	}
-	else
-	{
-		printf("SUCCESSFULLY ALLOCATED!!!\n");
-	}
-}
-*/
+
 void test(char *list,int size)
 {
 	char * header;

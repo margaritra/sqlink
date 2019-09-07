@@ -11,9 +11,6 @@ void* memInit(void* buffer,int size)
 	{
 		return 0;
 	}
-	
-	//buffer = (char*)buffer + 1;// for test
-
 	if(((unsigned long)buffer)%4!=0)
 	{
 		size = size-(4-((unsigned long)buffer)%4);
@@ -64,7 +61,7 @@ void * memAlloc(void* buffer,int size)
 	if(size > 2147483647 || SET_FREE(((int *)buffer)[0]) == 0)//2^31 0111111111111....
 	{
 		return 0;
-    	}
+    }
     
 	int bytesToEnd = ((int *)buffer)[0] - 4;
 
@@ -76,7 +73,7 @@ void * memAlloc(void* buffer,int size)
 		if(bytesToEnd - 4 - block_size==0)//the next block is in the end
 		{
 			return 0;
-        	}        
+        }        
 		bytesToEnd = bytesToEnd - 4 - block_size;
 		header = getNextBlock(header);        
 		block_size = blockSize(header);        
@@ -99,19 +96,15 @@ void * memAlloc(void* buffer,int size)
 int memFree(void* header)
 {
 	void* nexthead;
-	if(header!=NULL)
-	{
-		if(!isFree(header))//not free
-		{                       
-			((int*)header)[0] = SET_FREE(((int*)header)[0]); 
-		}
+	if(header!=NULL && !(isFree(header)))
+	{                     
+		((int*)header)[0] = SET_FREE(((int*)header)[0]); 
 		nexthead = getNextBlock(header); 
  
 		if(isFree(nexthead))//next block is free
 		{
-			((int*)header)[0] = ((int*)header)[0] + ((int*)nexthead)[0] -1;// head =+ next head
-		}	
-		 		
+			((int*)header)[0] = ((int*)header)[0] + ((int*)nexthead)[0] + 4;// head =+ next head
+		}		
 		return 1;
         
 	}
