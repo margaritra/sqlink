@@ -279,5 +279,7 @@ string_t string_t::operator()(int start, uint len)
 		newStr[j] = str[i];
 		j++;
 	}
-	return newStr;
+	string_t temp(newStr);
+	delete[]newStr;
+	return temp;
 }
