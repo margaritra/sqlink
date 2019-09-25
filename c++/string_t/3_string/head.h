@@ -37,7 +37,7 @@ class  string_t
 		
 		int returnFirstindex(const string_t& s);
 		int returnLastindex(const string_t& s);
-		string_t operator()(int start, uint len);
+		string_t operator()(unsigned int start, unsigned uint len);
 
 
 
