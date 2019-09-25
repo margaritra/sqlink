@@ -267,7 +267,7 @@ int string_t::returnLastindex(const string_t& s)
 
 }
 
-string_t string_t::operator()(int start, uint len)
+string_t string_t::operator()(unsigned int start,unsigned uint len)
 {
 	int i =0;
 	int j = 0;
