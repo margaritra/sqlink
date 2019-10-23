@@ -5,7 +5,6 @@
 
 using namespace std;
 
-//num Status { ok_e, cant_open_file_e, bad_access_e, writeErr_e, readErr_es };
 int main()
 {
 	string path = "/home/ubuntu/Rita/copyofgit/10_IO/test.txt";
