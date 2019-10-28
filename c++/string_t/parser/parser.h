@@ -1,33 +1,47 @@
-#pragma once // any file containing #pragma once will only actually be included once, even if the programmer includes it multiple times.
-#include<iostream>
+#pragma once
 #include<string>
 #include <fstream>
-#include"tokenizer.h"
+#include"tokenIzer.h"
+#include"analyzer.h"
+
 using namespace std;
 
-class Parser
-{
+class Parser {
 public:
-
-	Parser();
-
-	void open(const string& i_path);
-
+	Parser() { m_lineNumber = 0; };
 	void parse(const string& i_path);
-
-	~Parser()
-	{
-		m_file.close();
-	}
-
-
+	~Parser() { m_file.close(); };
 
 private:
 	Parser(const Parser& p) {};
 	Parser& operator=(const Parser& p) {};
 
-	ifstream m_file; ////This data type represents the input file stream and is used to read information from files.
+	ifstream m_file;
 	int m_lineNumber;
 	TokenIzer m_tokenizer;
-	//Analyzer m_a;
+	Analyzer m_analyzer;
+
+	vector<string>::const_iterator first;
+	vector<string>::const_iterator last;
 };
+
+void Parser::parse(const string& i_path)
+{
+	m_file.open(i_path);
+	if (m_file)
+	{
+		string line;
+		while (getline(m_file, line))
+		{
+			m_lineNumber++;
+			m_tokenizer.tokenIzer(line);
+			//m_tokenizer.printTokens();
+			m_analyzer.analyzer(m_tokenizer.getTokens(), m_lineNumber);
+			m_tokenizer.tokenClear();
+		}
+	}
+	else
+	{
+		throw string("Error in openning file");
+	}
+}
