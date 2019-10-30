@@ -1,4 +1,9 @@
 //not finished
+//you need to run the file with name of directory as argument[1]
+//example: gcc ls_walk_dir.c -o ls -> ./ls Rita
+//Rita is example of directory 
+//Rita exists in folder where the code ls_walk_dir.c exists
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <dirent.h>
@@ -141,23 +146,34 @@ node* walkDir(char *basedir,node* first)
 	}
 }
 
+char* print_file_info(char *file)
+{
+	struct stat st;
+	if(stat(file, &st) != 0) 
+	{
+	return 0;
+	}
+	char *modeval = malloc(sizeof(char) * 9 + 1);
 
-char* permissions(char *file){
-    struct stat st;
-    char *modeval = malloc(sizeof(char) * 9 + 1);
-    if(stat(file, &st) == 0){
-        mode_t perm = st.st_mode;
-        modeval[0] = (perm & S_IRUSR) ? 'r' : '-';
-        modeval[1] = (perm & S_IWUSR) ? 'w' : '-';
-        modeval[2] = (perm & S_IXUSR) ? 'x' : '-';
-        modeval[3] = (perm & S_IRGRP) ? 'r' : '-';
-        modeval[4] = (perm & S_IWGRP) ? 'w' : '-';
-        modeval[5] = (perm & S_IXGRP) ? 'x' : '-';
-        modeval[6] = (perm & S_IROTH) ? 'r' : '-';
-        modeval[7] = (perm & S_IWOTH) ? 'w' : '-';
-        modeval[8] = (perm & S_IXOTH) ? 'x' : '-';
-        modeval[9] = '\0';
-	printf("prmission:%s \n",modeval);
+	if(stat(file, &st) == 0){
+	mode_t perm = st.st_mode;
+	modeval[0] = (perm & S_IRUSR) ? 'r' : '-';
+	modeval[1] = (perm & S_IWUSR) ? 'w' : '-';
+	modeval[2] = (perm & S_IXUSR) ? 'x' : '-';
+	modeval[3] = (perm & S_IRGRP) ? 'r' : '-';
+	modeval[4] = (perm & S_IWGRP) ? 'w' : '-';
+	modeval[5] = (perm & S_IXGRP) ? 'x' : '-';
+	modeval[6] = (perm & S_IROTH) ? 'r' : '-';
+	modeval[7] = (perm & S_IWOTH) ? 'w' : '-';
+	modeval[8] = (perm & S_IXOTH) ? 'x' : '-';
+	modeval[9] = '\0';
+	
+	printf("%s  \t\t%zu \t%zu \n",modeval,st.st_nlink,st.st_size);
+ 
+	//printf("File Size: \t\t%d bytes\n",file.st_size);
+    	//printf("Number of Links: \t%d\n",fileStat.st_nlink);
+    	//printf("File inode: \t\t%d\n",fileStat.st_ino);
+	
         return modeval;     
     }
     else{
@@ -189,7 +205,7 @@ void test(int argc, char *argv[])
 	listofFiles = walkDir(basedir,listofFiles); //return the node *listofFiles
 	while(listofFiles != NULL)
 	{
-		permissions(listofFiles->data);
+		print_file_info(listofFiles->data);
 		listofFiles = listofFiles->next;
 	}
 	
@@ -202,6 +218,8 @@ int main(int argc, char *argv[])
     test(argc,argv);
     return 0;
 }
+
+
 
 
 
