@@ -169,10 +169,6 @@ char* print_file_info(char *file)
 	modeval[9] = '\0';
 	
 	printf("%s  \t\t%zu \t%zu \n",modeval,st.st_nlink,st.st_size);
- 
-	//printf("File Size: \t\t%d bytes\n",file.st_size);
-    	//printf("Number of Links: \t%d\n",fileStat.st_nlink);
-    	//printf("File inode: \t\t%d\n",fileStat.st_ino);
 	
         return modeval;     
     }
