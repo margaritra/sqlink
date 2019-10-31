@@ -16,6 +16,8 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <time.h>
+#define Size 50
 
 
 typedef struct node 
@@ -79,6 +81,17 @@ void printList(node* link)
 	printf("]\n");
 }
 
+void count_files(node* link)
+{
+	size_t count = 0;
+	while(link != NULL)
+	{
+		count++;
+		link = link->next;
+	}
+	printf("total : %zu\n",count);
+}
+
 int isDir(const char *file_path)
 {
 	struct stat s;
@@ -130,7 +143,7 @@ node* walkDir(char *basedir,node* first)
 				}
 			}
 		}
-		//printList(root);
+		count_files(root);
 		return root;
 		closedir(dir);
 	}
@@ -149,6 +162,13 @@ node* walkDir(char *basedir,node* first)
 char* print_file_info(char *file)
 {
 	struct stat st;
+
+	time_t t ;
+	struct tm *tmp ;
+	char MY_TIME[Size];
+	time( &t );
+	tmp = localtime( &t );
+
 	if(stat(file, &st) != 0) 
 	{
 	return 0;
@@ -167,14 +187,17 @@ char* print_file_info(char *file)
 	modeval[7] = (perm & S_IWOTH) ? 'w' : '-';
 	modeval[8] = (perm & S_IXOTH) ? 'x' : '-';
 	modeval[9] = '\0';
+	//printf("%s \n", getenv("USER"));  // Print user's home directory.
 	
-	printf("%s  \t\t%zu \t%zu \n",modeval,st.st_nlink,st.st_size);
-	
-        return modeval;     
+	strftime(MY_TIME, sizeof(MY_TIME), "%x - %I:%M%p", tmp);
+
+	printf("%s \t%zu %s %s \t%zu \t%s \t%s\n",modeval,st.st_nlink,getenv("USER"),getenv("USER"),st.st_size,MY_TIME,file);
+        return modeval;    
     }
-    else{
-        return strerror(errno);
-    }   
+    else
+	{
+		return strerror(errno);
+	}   
 }
 
 void test(int argc, char *argv[])
