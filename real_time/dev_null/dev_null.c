@@ -23,8 +23,8 @@ static struct class*  myNullClass  = NULL; ///< The device-driver class struct p
 static struct device* myNullDriver = NULL; ///< The device-driver device struct pointer
 
 // The prototype functions for the character driver -- must come before the struct definition
-static int     dev_open(struct inode *, struct file *);
-static int     dev_release(struct inode *, struct file *);
+//static int     dev_open(struct inode *, struct file *);
+//static int     dev_release(struct inode *, struct file *);
 //static ssize_t dev_read(struct file *, char *, size_t, loff_t *);
 static ssize_t dev_write(struct file *, const char *, size_t, loff_t *);
 
@@ -34,10 +34,11 @@ static ssize_t dev_write(struct file *, const char *, size_t, loff_t *);
  */
 static struct file_operations fops =
 {
-   .open = dev_open,
+   
+   //.open = dev_open,
    //.read = dev_read,
    .write = dev_write,
-   .release = dev_release,
+   //.release = dev_release,
 };
 
 /** @brief This function is called whenever the device is being written to from user space i.e.
@@ -52,7 +53,7 @@ static ssize_t dev_write(struct file *filep, const char *buffer, size_t len, lof
 {
    sprintf(message, "%s(%zu letters)", buffer, len);   // appending received string with its length
    size_of_message = strlen(message);                 // store the length of the stored message
-   printk(KERN_INFO "EBBChar: Received %zu characters from the user\n", len);
+   printk(KERN_INFO "myNull: Received %zu characters from the user\n", len);
    return len;
 }
 
@@ -112,24 +113,24 @@ static void __exit myNull_exit(void)
  *  @param filep A pointer to a file object (defined in linux/fs.h)
  */
 
-
+/**
 static int dev_open(struct inode *inodep, struct file *filep)
 {
    numberOpens++;
    printk(KERN_INFO "myNull: Device has been opened %d time(s)\n", numberOpens);
    return 0;
 }
-
+ */
 /** The device release function that is called whenever the device is closed/released by
  *  the userspace program
  *  @param inodep A pointer to an inode object (defined in linux/fs.h)
  *  @param filep A pointer to a file object (defined in linux/fs.h)
- */
+ 
 static int dev_release(struct inode *inodep, struct file *filep)
 {
    printk(KERN_INFO "myNull: Device successfully closed\n");
    return 0;
 }
-
+ */
 module_init(myNull_init);
 module_exit(myNull_exit);
