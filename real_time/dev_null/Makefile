@@ -6,4 +6,4 @@ all:
 	$(CC) testebbchar.c -o test
 clean:
 	make -C -C $(KDIR) M=$(CURDIR) clean
-	rm test
+	rm -f *.stamp
