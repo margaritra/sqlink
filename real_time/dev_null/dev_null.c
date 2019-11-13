@@ -23,10 +23,10 @@ static struct class*  myNullClass  = NULL; ///< The device-driver class struct p
 static struct device* myNullDriver = NULL; ///< The device-driver device struct pointer
 
 // The prototype functions for the character driver -- must come before the struct definition
-//static int     dev_open(struct inode *, struct file *);
-//static int     dev_release(struct inode *, struct file *);
+static int     dev_open(struct inode *, struct file *);
+static int     dev_release(struct inode *, struct file *);
 //static ssize_t dev_read(struct file *, char *, size_t, loff_t *);
-//static ssize_t dev_write(struct file *, const char *, size_t, loff_t *);
+static ssize_t dev_write(struct file *, const char *, size_t, loff_t *);
 
 /** Devices are represented as file structure in the kernel. The file_operations structure from
  *  /linux/fs.h lists the callback functions that you wish to associated with your file operations
@@ -36,9 +36,25 @@ static struct file_operations fops =
 {
    .open = dev_open,
    //.read = dev_read,
-   //.write = dev_write,
+   .write = dev_write,
    .release = dev_release,
 };
+
+/** @brief This function is called whenever the device is being written to from user space i.e.
+ *  data is sent to the device from the user. The data is copied to the message[] array in this
+ *  LKM using the sprintf() function along with the length of the string.
+ *  @param filep A pointer to a file object
+ *  @param buffer The buffer to that contains the string to write to the device
+ *  @param len The length of the array of data that is being passed in the const char buffer
+ *  @param offset The offset if required
+ */
+static ssize_t dev_write(struct file *filep, const char *buffer, size_t len, loff_t *offset)
+{
+   sprintf(message, "%s(%zu letters)", buffer, len);   // appending received string with its length
+   size_of_message = strlen(message);                 // store the length of the stored message
+   printk(KERN_INFO "EBBChar: Received %zu characters from the user\n", len);
+   return len;
+}
 
 static int __init myNull_init(void)
 {
