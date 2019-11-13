@@ -12,7 +12,7 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Margarita Borodin");
 MODULE_DESCRIPTION("A simple Linux char driver for the dev/null");
-MODULE_VERSION("2.4.6");
+MODULE_VERSION("4.15.0");
 
 
 static int    majorNumber;                  ///< Stores the device number -- determined automatically
